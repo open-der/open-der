@@ -18,7 +18,7 @@
     "PNPM_VERSION": "10.11.1"
   },
 
-  "postCreateCommand": "corepack enable && corepack prepare pnpm@10.11.1 --activate && node --version && pnpm --version && pnpm install --frozen-lockfile",
+  "postCreateCommand": "corepack enable && corepack prepare pnpm@10.11.1 --activate && node --version && pnpm --version && pnpm install && pnpm approve-builds && pnpm install --frozen-lockfile",
 
   "customizations": {
     "vscode": {
