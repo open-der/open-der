@@ -5,6 +5,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "open-der",
+	"account_id": "0b48f4e4e9b8579904c60ddbd6bc7275",
 	"main": "./.output/server/index.mjs",
 	"compatibility_date": "2026-09-26",
 	"assets": {
@@ -38,14 +39,16 @@
 		}
 	],
 	"vars": {
-		// # Vars
+		// Vars
 		"APP_URL": "https://nic.der.my.id",
 		"EMAIL_SENDER_NAME": "OpenDer",
 		"EMAIL_SENDER_ADDRESS": "no-reply@notify.der.my.id",
 		"ADMIN_EMAIL": "hostmaster@der.my.id, dd@dyzulk.com, dyzulkdeveloper@gmail.com",
 		"GITHUB_CLIENT_ID": "Ov23liUcDLRRMsf7N0WG",
-		"CLOUDFLARE_ZONE_ID": "f2fe2b5b04530b11dde6d4e02507bc10",
-		"CLOUDFLARE_ACCOUNT_ID": "49e86ef059f7bb2e4d4b999dc8548a9c"
+		"DOMAIN_CLOUDFLARE_ZONE_ID": "f2fe2b5b04530b11dde6d4e02507bc10",
+		"DOMAIN_CLOUDFLARE_ACCOUNT_ID": "49e86ef059f7bb2e4d4b999dc8548a9c",
+		"WORKERS_CLOUDFLARE_ACCOUNT_ID": "0b48f4e4e9b8579904c60ddbd6bc7275",
+		"CLOUDFLARE_ACCOUNT_ID": "0b48f4e4e9b8579904c60ddbd6bc7275"
 	},
 	"observability": {
 		"enabled": true
@@ -62,13 +65,6 @@
 	 * databases, object storage, AI inference, real-time communication and more.
 	 * https://developers.cloudflare.com/workers/runtime-apis/bindings/
 	 */
-	/**
-	 * Environment Variables
-	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
-	 * Note: Use secrets to store sensitive data.
-	 * https://developers.cloudflare.com/workers/configuration/secrets/
-	 */
-	// "vars": {  "MY_VARIABLE": "production_value" }
 	/**
 	 * Service Bindings (communicate between multiple Workers)
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
