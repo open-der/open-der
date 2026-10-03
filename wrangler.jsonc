@@ -5,7 +5,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "open-der",
-	"account_id": "0b48f4e4e9b8579904c60ddbd6bc7275",
+	"account_id": "f901bc18a59ebf419d475e3766f80c7f",
 	"main": "./.output/server/index.mjs",
 	"compatibility_date": "2026-09-26",
 	"assets": {
@@ -47,8 +47,8 @@
 		"GITHUB_CLIENT_ID": "Ov23liUcDLRRMsf7N0WG",
 		"DOMAIN_CLOUDFLARE_ZONE_ID": "f2fe2b5b04530b11dde6d4e02507bc10",
 		"DOMAIN_CLOUDFLARE_ACCOUNT_ID": "49e86ef059f7bb2e4d4b999dc8548a9c",
-		"WORKERS_CLOUDFLARE_ACCOUNT_ID": "0b48f4e4e9b8579904c60ddbd6bc7275",
-		"CLOUDFLARE_ACCOUNT_ID": "0b48f4e4e9b8579904c60ddbd6bc7275"
+		"WORKERS_CLOUDFLARE_ACCOUNT_ID": "f901bc18a59ebf419d475e3766f80c7f",
+		"CLOUDFLARE_ACCOUNT_ID": "f901bc18a59ebf419d475e3766f80c7f"
 	},
 	"observability": {
 		"enabled": true
