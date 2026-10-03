@@ -11,6 +11,42 @@
 		"binding": "ASSETS",
 		"directory": "./.output/public/"
 	},
+	"routes": [
+		{
+			"pattern": "nic.der.my.id",
+			"custom_domain": true
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "D1",
+			"database_name": "open-der",
+			"database_id": "ad4e4b8c-fa6d-4d98-a4f7-2897f76c5e39",
+			"migrations_dir": "./drizzle"
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "KV",
+			"id": "1c9c7a77432c48fbab50519a6843fec8"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "R2",
+			"bucket_name": "open-der"
+		}
+	],
+	"vars": {
+		// # Vars
+		"APP_URL": "https://nic.der.my.id",
+		"EMAIL_SENDER_NAME": "OpenDer",
+		"EMAIL_SENDER_ADDRESS": "no-reply@notify.der.my.id",
+		"ADMIN_EMAIL": "hostmaster@der.my.id, dd@dyzulk.com, dyzulkdeveloper@gmail.com",
+		"GITHUB_CLIENT_ID": "Ov23liUcDLRRMsf7N0WG",
+		"CLOUDFLARE_ZONE_ID": "f2fe2b5b04530b11dde6d4e02507bc10",
+		"CLOUDFLARE_ACCOUNT_ID": "49e86ef059f7bb2e4d4b999dc8548a9c"
+	},
 	"observability": {
 		"enabled": true
 	},
