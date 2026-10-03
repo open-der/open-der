@@ -22,14 +22,14 @@
 		{
 			"binding": "D1",
 			"database_name": "open-der",
-			"database_id": "ad4e4b8c-fa6d-4d98-a4f7-2897f76c5e39",
+			"database_id": "2f62fef6-c06a-4338-acb8-3f3189d99165",
 			"migrations_dir": "./drizzle"
 		}
 	],
 	"kv_namespaces": [
 		{
 			"binding": "KV",
-			"id": "1c9c7a77432c48fbab50519a6843fec8"
+			"id": "6372cb76c7eb48a787989c6739e290af"
 		}
 	],
 	"r2_buckets": [
