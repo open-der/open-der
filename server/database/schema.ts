@@ -84,6 +84,15 @@ export const verification = sqliteTable("verification", {
 	...timestamps,
 });
 
+export const authRateLimit = sqliteTable(
+	"auth_rate_limit",
+	{
+		key: text("key").primaryKey(),
+		count: integer("count").notNull(),
+		expiresAt: integer("expires_at").notNull(),
+	},
+);
+
 export const apiToken = sqliteTable(
 	"api_token",
 	{
@@ -345,6 +354,7 @@ export const schema = {
 	account,
 	session,
 	verification,
+	authRateLimit,
 	apiToken,
 	contact,
 	domain,

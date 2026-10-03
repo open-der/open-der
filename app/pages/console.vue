@@ -19,15 +19,9 @@ interface AuthenticatedSession {
 	};
 }
 
-const { data: result, error } = await useRequestFetch()<AuthenticatedSession>(
+const auth = await useRequestFetch()<AuthenticatedSession>(
 	"/api/auth/session",
 );
-
-if (error.value || !result.value) {
-	throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
-}
-
-const auth = computed(() => result.value!);
 const busy = ref(false);
 const errorMessage = ref("");
 

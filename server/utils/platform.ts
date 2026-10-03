@@ -32,9 +32,9 @@ export interface PlatformAdapter {
 	secrets: PlatformSecrets;
 }
 
-export function getPlatformEnvironment(env: unknown): PlatformEnvironment {
+function isPlatformEnvironment(env: unknown): env is PlatformEnvironment {
 	if (!env || typeof env !== "object") {
-		throw new Error("Cloudflare environment bindings are unavailable.");
+		return false;
 	}
 
 	const candidate = env as Record<string, unknown>;
@@ -53,6 +53,8 @@ export function getPlatformEnvironment(env: unknown): PlatformEnvironment {
 		typeof d1 !== "object" ||
 		!("prepare" in d1) ||
 		typeof d1.prepare !== "function" ||
+		!("batch" in d1) ||
+		typeof d1.batch !== "function" ||
 		!kv ||
 		typeof kv !== "object" ||
 		!("get" in kv) ||
@@ -64,14 +66,16 @@ export function getPlatformEnvironment(env: unknown): PlatformEnvironment {
 		!r2 ||
 		typeof r2 !== "object" ||
 		!("put" in r2) ||
-		typeof r2.put !== "function"
+		typeof r2.put !== "function" ||
+		!("get" in r2) ||
+		typeof r2.get !== "function"
 	) {
-		throw new Error("Cloudflare D1, KV, and R2 bindings must be configured.");
+		return false;
 	}
 
 	for (const key of requiredStrings) {
 		if (typeof candidate[key] !== "string" || !candidate[key]) {
-			throw new Error(`${key} must be configured in the Worker environment.`);
+			return false;
 		}
 	}
 
@@ -86,11 +90,21 @@ export function getPlatformEnvironment(env: unknown): PlatformEnvironment {
 		"CLOUDFLARE_API_TOKEN",
 	]) {
 		if (candidate[key] !== undefined && typeof candidate[key] !== "string") {
-			throw new Error(`${key} must be a string when configured.`);
+			return false;
 		}
 	}
 
-	return candidate as PlatformEnvironment;
+	return true;
+}
+
+export function getPlatformEnvironment(env: unknown): PlatformEnvironment {
+	if (!isPlatformEnvironment(env)) {
+		throw new Error(
+			"Cloudflare bindings and required environment variables must be configured.",
+		);
+	}
+
+	return env;
 }
 
 export function createPlatformAdapter(

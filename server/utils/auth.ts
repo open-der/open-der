@@ -56,12 +56,28 @@ export function createAuth(env: PlatformEnvironment) {
 				return value;
 			},
 			increment: async (key, ttl) => {
-				const current = await bindings.KV.get(key);
-				const next = (current === null ? 0 : Number(current)) + 1;
-				await bindings.KV.put(key, String(next), {
-					expirationTtl: current === null ? Math.max(60, ttl) : undefined,
-				});
-				return next;
+				const result = await bindings.D1.prepare(
+					`INSERT INTO auth_rate_limit (key, count, expires_at)
+					VALUES (?, 1, unixepoch() + ?)
+					ON CONFLICT(key) DO UPDATE SET
+						count = CASE
+							WHEN expires_at <= unixepoch() THEN 1
+							ELSE count + 1
+						END,
+						expires_at = CASE
+							WHEN expires_at <= unixepoch() THEN unixepoch() + ?
+							ELSE expires_at
+						END
+					RETURNING count`,
+				)
+					.bind(key, Math.max(1, Math.ceil(ttl)), Math.max(1, Math.ceil(ttl)))
+					.first<{ count: number }>();
+
+				if (!result) {
+					throw new Error("Failed to increment the auth rate limit counter.");
+				}
+
+				return result.count;
 			},
 			set: async (key, value, ttl) => {
 				if (ttl === undefined) {
