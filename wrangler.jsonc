@@ -14,7 +14,7 @@
 	},
 	"routes": [
 		{
-			"pattern": "nic.der.my.id",
+			"pattern": "nic.der.dyzulk.net.eu.org",
 			"custom_domain": true
 		}
 	],
