@@ -12,7 +12,8 @@
 		"cf-typegen": "wrangler types",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate:local": "wrangler d1 migrations apply open-der --local",
-		"db:migrate:remote": "wrangler d1 migrations apply open-der --remote"
+		"db:migrate:remote": "wrangler d1 migrations apply open-der --remote",
+		"wrangler": "wrangler"
 	},
 	"dependencies": {
 		"@getbrevo/brevo": "^6.0.3",
