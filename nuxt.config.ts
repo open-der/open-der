@@ -15,7 +15,10 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ["nitro-cloudflare-dev"],
+  modules: ["nitro-cloudflare-dev", "@nuxtjs/color-mode"],
+  colorMode: {
+    classSuffix: '',
+  },
   vite: {
     plugins: [tailwindcss()]
   }
