@@ -48,7 +48,7 @@ export async function sendTransactionalEmail(
 
 	if (secrets.BREVO_API_KEY) {
 		try {
-			const result = await new BrevoClient({
+			await new BrevoClient({
 				apiKey: secrets.BREVO_API_KEY,
 				maxRetries: 0,
 			}).transactionalEmails.sendTransacEmail({
@@ -58,11 +58,6 @@ export async function sendTransactionalEmail(
 				htmlContent: email.html,
 				textContent: email.text,
 			});
-
-			if (result.statusCode >= 400) {
-				throw new Error(`Brevo rejected the email (${result.statusCode}).`);
-			}
-
 			return;
 		} catch (error) {
 			errors.push(error instanceof Error ? error : new Error(String(error)));

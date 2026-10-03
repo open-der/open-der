@@ -32,6 +32,67 @@ export interface PlatformAdapter {
 	secrets: PlatformSecrets;
 }
 
+export function getPlatformEnvironment(env: unknown): PlatformEnvironment {
+	if (!env || typeof env !== "object") {
+		throw new Error("Cloudflare environment bindings are unavailable.");
+	}
+
+	const candidate = env as Record<string, unknown>;
+	const d1 = candidate.D1;
+	const kv = candidate.KV;
+	const r2 = candidate.R2;
+	const requiredStrings = [
+		"APP_URL",
+		"EMAIL_SENDER_NAME",
+		"EMAIL_SENDER_ADDRESS",
+		"BETTER_AUTH_SECRET",
+	];
+
+	if (
+		!d1 ||
+		typeof d1 !== "object" ||
+		!("prepare" in d1) ||
+		typeof d1.prepare !== "function" ||
+		!kv ||
+		typeof kv !== "object" ||
+		!("get" in kv) ||
+		typeof kv.get !== "function" ||
+		!("put" in kv) ||
+		typeof kv.put !== "function" ||
+		!("delete" in kv) ||
+		typeof kv.delete !== "function" ||
+		!r2 ||
+		typeof r2 !== "object" ||
+		!("put" in r2) ||
+		typeof r2.put !== "function"
+	) {
+		throw new Error("Cloudflare D1, KV, and R2 bindings must be configured.");
+	}
+
+	for (const key of requiredStrings) {
+		if (typeof candidate[key] !== "string" || !candidate[key]) {
+			throw new Error(`${key} must be configured in the Worker environment.`);
+		}
+	}
+
+	for (const key of [
+		"ADMIN_EMAIL",
+		"GITHUB_CLIENT_ID",
+		"GITHUB_CLIENT_SECRET",
+		"CLOUDFLARE_ZONE_ID",
+		"CLOUDFLARE_ACCOUNT_ID",
+		"RESEND_API_KEY",
+		"BREVO_API_KEY",
+		"CLOUDFLARE_API_TOKEN",
+	]) {
+		if (candidate[key] !== undefined && typeof candidate[key] !== "string") {
+			throw new Error(`${key} must be a string when configured.`);
+		}
+	}
+
+	return candidate as PlatformEnvironment;
+}
+
 export function createPlatformAdapter(
 	env: PlatformEnvironment,
 ): PlatformAdapter {

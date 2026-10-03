@@ -3,9 +3,12 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { drizzle } from "drizzle-orm/d1";
 import { schema } from "../database/schema";
 import { sendTransactionalEmail } from "./email";
-import { createPlatformAdapter } from "./platform";
+import {
+	createPlatformAdapter,
+	type PlatformEnvironment,
+} from "./platform";
 
-export function createAuth(env: Env) {
+export function createAuth(env: PlatformEnvironment) {
 	const { bindings, vars, secrets } = createPlatformAdapter(env);
 
 	if (!secrets.BETTER_AUTH_SECRET) {
@@ -45,6 +48,21 @@ export function createAuth(env: Env) {
 		}),
 		secondaryStorage: {
 			get: (key) => bindings.KV.get(key),
+			getAndDelete: async (key) => {
+				const value = await bindings.KV.get(key);
+				if (value !== null) {
+					await bindings.KV.delete(key);
+				}
+				return value;
+			},
+			increment: async (key, ttl) => {
+				const current = await bindings.KV.get(key);
+				const next = (current === null ? 0 : Number(current)) + 1;
+				await bindings.KV.put(key, String(next), {
+					expirationTtl: current === null ? Math.max(60, ttl) : undefined,
+				});
+				return next;
+			},
 			set: async (key, value, ttl) => {
 				if (ttl === undefined) {
 					await bindings.KV.put(key, value);
@@ -117,6 +135,6 @@ function escapeHtml(value: string) {
 			'"': "&quot;",
 			"'": "&#39;",
 		};
-		return entities[character];
+		return entities[character] ?? character;
 	});
 }

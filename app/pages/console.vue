@@ -19,7 +19,7 @@ interface AuthenticatedSession {
 	};
 }
 
-const { data: result, error } = await useFetch<AuthenticatedSession>(
+const { data: result, error } = await useRequestFetch()<AuthenticatedSession>(
 	"/api/auth/session",
 );
 
